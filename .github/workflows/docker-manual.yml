@@ -27,6 +27,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build
         run: |
-          docker build -t ghcr.io/tl-its-umich-edu/UDOIT:${{ github.event.inputs.version }} .
+          docker build -t ghcr.io/tl-its-umich-edu/udoit:${{ github.event.inputs.version }} .
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker push ghcr.io/tl-its-umich-edu/UDOIT:${{ github.event.inputs.version }}
+          docker push ghcr.io/tl-its-umich-edu/udoit:${{ github.event.inputs.version }}
