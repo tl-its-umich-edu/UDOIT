@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version'
+        description: 'Version number like v2.8.0 or 20210101'
         required: true
-        default: '2021MMDD'
+        default: 'v2.8.0'
       ref:
         description: 'Branch or SHA to reference'
         required: false
@@ -28,7 +28,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.events.inputs.ref }}
+          ref: ${{ github.event.inputs.ref }}
           fetch-depth: 0
 
       # Runs a set of commands using the runners shell
