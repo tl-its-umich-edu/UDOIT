@@ -10,9 +10,9 @@ on:
       version:
         description: 'Version number like v2.8.0 or 20210101'
         required: true
-        default: 'v2.8.0'
+        default: 'v3.0.1'
       ref:
-        description: 'Branch or SHA to reference'
+        description: 'Tag, branch or Full SHA to reference. Tags may not be updated so should use SHA for the tag.'
         required: false
         default: ''
 
