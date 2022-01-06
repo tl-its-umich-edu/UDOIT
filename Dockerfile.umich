@@ -1,10 +1,21 @@
 FROM ghcr.io/tl-its-umich-edu/udoit:v3.0.1
 
-RUN sed -i s/"Listen 80"/"Listen 8080"/ /etc/apache2/ports.conf
-RUN sed -i s/"VirtualHost \*:80"/"VirtualHost \*:8080"/ /etc/apache2/sites-available/000-default.conf
-
 # https://documentation.its.umich.edu/node/2118
 RUN useradd -g root -m -s /bin/bash -l -o -u 1000940000 www-root
 
-# Expose the new port
-EXPOSE 8080
+# Switch Apache to Nginx
+RUN apt-get install -y nginx && apt-get remove -y apache2
+
+# Copy over the files
+WORKDIR /var/www/html
+
+COPY . .
+
+# Composer isn't run for some reason
+RUN composer install --no-dev
+
+
+# Copy over the nginx config
+COPY config/nginx_app.conf /etc/nginx/sites-available/default
+
+CMD ["/usr/bin/supervisord", "-n", "-c", "/var/www/html/config/supervisord.conf"]
