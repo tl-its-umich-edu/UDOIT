@@ -8,4 +8,13 @@ if [ "$(id -u)" -ge 1000 ] ; then
     rm /tmp/passwd
 fi
 
+# Run migrations
+echo "Waiting for DB"
+while ! php bin/console dbal:run-sql 'SELECT version()' > /dev/null 2>&1; do   
+  echo "Waiting 1 second for database to be available."
+  sleep 1 # wait 1 second before check again
+done
+
+php bin/console doctrine:migrations:migrate --no-interaction
+
 /usr/bin/supervisord -n -c /var/www/html/config/supervisord.conf
