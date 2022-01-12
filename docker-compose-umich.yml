@@ -12,6 +12,7 @@ services:
       MYSQL_PASSWORD: udoit
     ports:
       - "3306:3306"
+    container_name: udoit_db
   # Uncomment this block and comment the next db block
   # to use Postgres instead of MySQL
   # db:
@@ -29,6 +30,12 @@ services:
       dockerfile: Dockerfile.umich
     ports:
       - "8000:8000"
+    environment:
+      DATABASE_URL: mysql://udoit:udoit@udoit_db:3306/udoit3
+      APP_ENV: dev
+      APP_LMS: canvas
+    container_name: udoit_php
+        
 volumes:
   web:
   dbdata:
