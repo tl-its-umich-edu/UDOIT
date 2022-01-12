@@ -34,6 +34,8 @@ services:
       DATABASE_URL: mysql://udoit:udoit@udoit_db:3306/udoit3
       APP_ENV: prod
       APP_LMS: canvas
+      RUN_MIGRATIONS: "true"
+
     container_name: udoit_php
     user: 1001320000:10000
         
