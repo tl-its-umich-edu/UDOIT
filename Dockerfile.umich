@@ -7,9 +7,14 @@ RUN chmod a+w /etc/passwd
 # Switch Apache to Nginx
 RUN apt-get install -y nginx && apt-get remove -y apache2
 
+# Update nginx, change access.log
 RUN sed -i 's/\/var\/log\/nginx\/access.log/\/dev\/stdout/g' /etc/nginx/nginx.conf && \
+    # Chang error.log 
     sed -i 's/\/var\/log\/nginx\/error.log/\/dev\/stdout info/g' /etc/nginx/nginx.conf && \
-    sed -i 's/\/run\/nginx.pid/\/tmp\/nginx.pid/g' /etc/nginx/nginx.conf
+    # Change pid location
+    sed -i 's/\/run\/nginx.pid/\/tmp\/nginx.pid/g' /etc/nginx/nginx.conf && \
+    # Delete user line
+    sed -i '/^user/d' /etc/nginx/nginx.conf
 
 # For nginx as non root
 RUN mkdir /var/lib/nginx/body /var/lib/nginx/fastcgi /var/lib/nginx/proxy /var/lib/nginx/uwsgi /var/lib/nginx/scgi && chown  --recursive www-data /var/lib/nginx
