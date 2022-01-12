@@ -32,9 +32,10 @@ services:
       - "8000:8000"
     environment:
       DATABASE_URL: mysql://udoit:udoit@udoit_db:3306/udoit3
-      APP_ENV: dev
+      APP_ENV: prod
       APP_LMS: canvas
     container_name: udoit_php
+    user: 1001320000:10000
         
 volumes:
   web:

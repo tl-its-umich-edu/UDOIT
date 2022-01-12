@@ -1,21 +1,28 @@
 FROM ghcr.io/tl-its-umich-edu/udoit:v3.0.1
 
 # https://documentation.its.umich.edu/node/2118
-RUN useradd -g root -m -s /bin/bash -l -o -u 1000940000 www-root
+# RUN useradd -g root -m -s /bin/bash -l -o -u 1000940000 www-data && 
+RUN chmod a+w /etc/passwd
 
 # Switch Apache to Nginx
 RUN apt-get install -y nginx && apt-get remove -y apache2
 
+RUN sed -i 's/\/var\/log\/nginx\/access.log/\/dev\/stdout/g' /etc/nginx/nginx.conf && \
+    sed -i 's/\/var\/log\/nginx\/error.log/\/dev\/stdout info/g' /etc/nginx/nginx.conf && \
+    sed -i 's/\/run\/nginx.pid/\/tmp\/nginx.pid/g' /etc/nginx/nginx.conf
+
+# For nginx as non root
+RUN mkdir /var/lib/nginx/body /var/lib/nginx/fastcgi /var/lib/nginx/proxy /var/lib/nginx/uwsgi /var/lib/nginx/scgi && chown  --recursive www-data /var/lib/nginx
+
 # Copy over the files
 WORKDIR /var/www/html
-
-COPY . .
-
-# Composer isn't run for some reason
-RUN composer install --no-dev
-
 
 # Copy over the nginx config
 COPY config/nginx_app.conf /etc/nginx/sites-available/default
 
-CMD ["/usr/bin/supervisord", "-n", "-c", "/var/www/html/config/supervisord.conf"]
+COPY . .
+
+# Composer needs to run here, ideally only the file needed for composer would be copied and this would run before the previous statement
+RUN composer install --no-dev
+
+CMD ["/var/www/html/umich-start.sh"]
