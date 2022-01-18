@@ -77,7 +77,9 @@ class CanvasLms implements LmsInterface {
     {
         $session = $this->sessionService->getSession();
         $baseUrl = $_ENV['JWK_BASE_URL'];
-
+        if (!$baseUrl) {
+            $baseUrl = $this->util->getCurrentDomain();
+        }
         $lmsParams = [];
         $params = array_merge($globalParams, $lmsParams);
         $queryStr = http_build_query($params);
@@ -88,6 +90,9 @@ class CanvasLms implements LmsInterface {
     public function getKeysetUrl()
     {
         $baseUrl = $_ENV['JWK_BASE_URL'];
+        if (!$baseUrl) {
+            $baseUrl = $this->util->getCurrentDomain();
+        }
 
         return "{$baseUrl}api/lti/security/jwks";
     }
