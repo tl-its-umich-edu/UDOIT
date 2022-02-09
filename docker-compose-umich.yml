@@ -38,6 +38,8 @@ services:
 
     container_name: udoit_php
     user: 1001320000:10000
+    group_add:
+      - 0
         
 volumes:
   web:
