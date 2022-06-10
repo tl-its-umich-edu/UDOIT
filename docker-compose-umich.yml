@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.9'
 
 services:
   db:
@@ -39,7 +39,7 @@ services:
     container_name: udoit_php
     user: 1001320000:10000
     group_add:
-      - 0
+      - root
         
 volumes:
   web:
