@@ -1,4 +1,4 @@
-FROM ghcr.io/tl-its-umich-edu/udoit:v3.0.1
+FROM ghcr.io/tl-its-umich-edu/udoit:v3.2.0
 
 # https://documentation.its.umich.edu/node/2118
 # RUN useradd -g root -m -s /bin/bash -l -o -u 1000940000 www-data && 
