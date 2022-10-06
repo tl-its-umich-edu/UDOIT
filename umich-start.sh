@@ -14,8 +14,7 @@ if [ "${RUN_MIGRATIONS}" = true ] ; then
         echo "Waiting 1 second for database to be available."
         sleep 1 # wait 1 second before check again
     done
+    php bin/console doctrine:migrations:migrate --no-interaction
 fi
-
-php bin/console doctrine:migrations:migrate --no-interaction
 
 /usr/bin/supervisord -n -c /var/www/html/config/supervisord.conf
