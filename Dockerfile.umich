@@ -26,7 +26,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Composer needs to run here, ideally only the file needed for composer would be copied and this would run before the previous statement
-COPY --from=composer:2.4.2 /usr/bin/composer /usr/local/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --version=2.4.2 --filename=composer
 
 RUN composer install --no-dev
 
