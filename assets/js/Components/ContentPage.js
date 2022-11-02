@@ -78,9 +78,14 @@ class ContentPage extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    console.log('getDerivedStateFromProps', props, state);
     const stateActiveIssue = state.activeIssue
-    const propsActiveIssue = stateActiveIssue && props.report.issues[stateActiveIssue.id]
-    if(propsActiveIssue && propsActiveIssue.status !== stateActiveIssue.status) {
+//    const propsActiveIssue = stateActiveIssue && props.report.issues[stateActiveIssue.id]
+    const propsActiveIssue = stateActiveIssue && props.report.issues.find(x => x.id === stateActiveIssue.id);
+    console.log('propsActiveIssue', propsActiveIssue);
+    console.log('stateActiveIssue', stateActiveIssue);
+    console.log('issues length ', props.report.issues.length)
+    if(propsActiveIssue && propsActiveIssue.status !== stateActiveIssue.status && propsActiveIssue.pending === false) {
       return {
         activeIssue: propsActiveIssue
       }
@@ -124,6 +129,7 @@ class ContentPage extends React.Component {
   }
 
   handleActiveIssue(newIssue, newIndex) {
+    console.log("handleActiveIssue", newIssue, newIndex);
     this.setState({
       activeIssue: newIssue,
       activeIndex: Number(newIndex)
@@ -153,6 +159,7 @@ class ContentPage extends React.Component {
       filters.issueTitles = this.easyRules
     }
 
+    console.log('getFilteredContent', filters, issueList);
     // Loop through the issues
     issueLoop: for (const [key, value] of Object.entries(issueList)) {
       let issue = Object.assign({}, value)
@@ -281,7 +288,12 @@ class ContentPage extends React.Component {
   }
 
   render() {
-    const filteredRows = this.getFilteredContent();
+    // Don't update the filtered content when modal is open? The fix might be in getFilteredContent.
+    // This is running every loop
+    console.log("render() called");
+    const filteredRows = this.getFilteredContent()
+    console.log('number of filtered rows', filteredRows.length)
+    console.log('filteredRows', filteredRows)
     const activeContentItem = (this.state.activeIssue) ? this.getContentById(this.state.activeIssue.contentItemId) : null
 
     return (

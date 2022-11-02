@@ -333,6 +333,7 @@ class AdminController extends ApiController
         $accounts = $lms->getAccountData($user, $accountId);
         $terms = $lms->getAccountTerms($user);
         $terms = $this->filterTermsByAccount($terms, $accounts);
+        error_log(print_r($terms, true));
         $defaultTerm = $this->getDefaultTerm($terms);
 
         $simpleTerms = [];

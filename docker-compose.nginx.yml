@@ -36,6 +36,7 @@ services:
       env_file:
         - .env
         - .env.local
+      command: /usr/sbin/nginx -g "daemon off;error_log /dev/stdout info;"
   php:
       build:
         context: ./build/nginx

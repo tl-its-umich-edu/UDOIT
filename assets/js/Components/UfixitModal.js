@@ -69,6 +69,8 @@ class UfixitModal extends React.Component {
       newIndex = 0
     }
     this.clearMessages()
+    console.log('handleIssueChange', newIndex)
+    console.log('filtered rows length ', this.props.filteredRows.length)
     this.props.handleActiveIssue(this.props.filteredRows[newIndex].issue, newIndex)
   }
   

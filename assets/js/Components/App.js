@@ -120,14 +120,21 @@ class App extends React.Component {
     if (this.settings.user && Array.isArray(this.settings.user.roles)) {
       if (this.settings.user.roles.includes('ROLE_ADVANCED_USER')) {
         if (this.initialReport) {
-          this.setState({report: this.initialReport, navigation: 'summary'})
+          this.setState({
+            report: this.initialReport,
+            navigation: 'summary',
+            syncComplete: true,
+            hasNewReport: false,
+            disableReview: false 
+          })
+        }
+        else {
+          this.scanCourse()
+            .then((response) => response.json())
+            .then(this.handleNewReport)
         }
       }
     }
-
-    this.scanCourse()
-      .then((response) => response.json())
-      .then(this.handleNewReport)
 
       // update iframe height on resize
       window.addEventListener("resize", this.resizeFrame);
