@@ -7,10 +7,12 @@ if [ "$(id -u)" -ge 1000 ] ; then
     rm /tmp/passwd
 fi
 
+sed -e "s/\(fastcgi_read_timeout\) 180;/\1 ${FASTCGI_READ_TIMEOUT=180};/" /var/www/html/build/nginx/local.conf > /etc/nginx/sites-available/default
+
 if [ "${RUN_MIGRATIONS}" = true ] ; then
     # Run migrations
     echo "Waiting for DB"
-    while ! php bin/console dbal:run-sql 'SELECT version()' > /dev/null 2>&1; do   
+    while ! php bin/console dbal:run-sql 'SELECT version()' > /dev/null 2>&1; do
         echo "Waiting 1 second for database to be available."
         sleep 1 # wait 1 second before check again
     done

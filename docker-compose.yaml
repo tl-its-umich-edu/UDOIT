@@ -37,12 +37,13 @@ services:
       APP_ENV: prod
       APP_LMS: canvas
       RUN_MIGRATIONS: "true"
+      FASTCGI_READ_TIMEOUT: 360
 
     container_name: udoit_php
     user: 1001320000:10000
     group_add:
       - root
-        
+
 volumes:
   web:
   dbdata:
