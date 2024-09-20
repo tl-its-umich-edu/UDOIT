@@ -61,11 +61,11 @@ define('USE_API_CACHING', '');
 
 /* Database Config */
 $db_type            = 'mysql'; // 'mysql' or 'pgsql'
-$db_host            = ''; // localhost or some other domain/ip
+$db_host            = 'udoit-db'; // localhost or some other domain/ip
 $db_port            = '3306';
-$db_user            = '';
-$db_password        = '';
-$db_name            = '';
+$db_user            = 'udoit';
+$db_password        = 'udoit';
+$db_name            = 'udoit';
 $db_user_table      = 'users';
 $db_reports_table   = 'reports';
 $db_job_queue_table = 'job_queue';

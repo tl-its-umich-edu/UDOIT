@@ -1,5 +1,3 @@
-version: '2'
-
 services:
   php73:
     build:
@@ -21,6 +19,14 @@ services:
     build:
       context: .
       dockerfile: php80.Dockerfile
+    volumes:
+      - ../:/var/www
+    command: php composer.phar start
+
+  php81:
+    build:
+      context: .
+      dockerfile: php81.Dockerfile
     volumes:
       - ../:/var/www
     command: php composer.phar start
