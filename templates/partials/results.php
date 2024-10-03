@@ -20,7 +20,7 @@
 global $file_scan_size_limit;
 ?>
 <h1 class="text-center">
-	Report for <?= $this->e($course); ?><br>
+	Report for <?= $course; ?><br>
 <small><?= $this->e($error_count); ?> error<?php if($error_count != 1): ?>s<?php endif; ?>, <?= $suggestion_count; ?> suggestion<?php if($suggestion_count != 1): ?>s<?php endif; ?>, <?= $unscannable_count; ?> unscannable file<?php if($unscannable_count != 1): ?>s<?php endif; ?></small>
 </h1>
 
