@@ -71,9 +71,11 @@ class BLTI {
             // echo "SECRET: " . $secret;
         }
 
-        $secret = $myKeys[$oauth_consumer_key];
-        // echo "SECRET: " . $secret;
 
+        if (isset($myKeys[$oauth_consumer_key])) {
+            $secret = $myKeys[$oauth_consumer_key];
+        }
+        // echo "SECRET: " . $secret;
 
         // Verify the message signature
         $store = new TrivialOAuthDataStore();
