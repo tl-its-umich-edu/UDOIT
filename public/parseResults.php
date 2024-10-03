@@ -19,7 +19,7 @@
 */
 require_once('../config/settings.php');
 
-$get_input = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+$get_input = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 global $logger;
 
 if (!isset($get_input['path'])) {

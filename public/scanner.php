@@ -30,7 +30,7 @@ session_start();
 header('Content-Type: text/html; charset=utf-8');
 
 // Sanitize post parameters
-$post_input = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+$post_input = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $post_input['custom_canvas_user_id'] = filter_input(INPUT_POST, 'custom_canvas_user_id', FILTER_SANITIZE_NUMBER_INT);
 $post_input['custom_canvas_course_id'] = filter_input(INPUT_POST, 'custom_canvas_course_id', FILTER_SANITIZE_NUMBER_INT);
 

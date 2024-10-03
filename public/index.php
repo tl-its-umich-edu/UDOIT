@@ -40,7 +40,7 @@ if (isEmpty(constant('VIMEO_API_KEY'))) {
 
 
 // Sanitize post parameters
-$post_input = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+$post_input = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $post_input['custom_canvas_user_id'] = filter_input(INPUT_POST, 'custom_canvas_user_id', FILTER_SANITIZE_NUMBER_INT);
 $post_input['custom_canvas_course_id'] = filter_input(INPUT_POST, 'custom_canvas_course_id', FILTER_SANITIZE_NUMBER_INT);
 $post_input['custom_canvas_root_account_id'] = filter_input(INPUT_POST, 'custom_canvas_root_account_id', FILTER_SANITIZE_NUMBER_INT);
@@ -82,7 +82,7 @@ if (strpos($_SESSION['launch_params']['ext_roles'], 'Administrator') !== false) 
 
 // Default to scanner if no destination is specified
 if (isset($_GET['d'])) {
-    $_SESSION['destination'] = filter_input(INPUT_GET, 'd', FILTER_SANITIZE_STRING);
+    $_SESSION['destination'] = filter_input(INPUT_GET, 'd', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 } else {
     $_SESSION['destination'] = 'scanner';
 }

@@ -47,7 +47,8 @@ global $footer_enabled;
 			<?php endif; ?>
 		</div>
 
-		<?php if ($footer_scripts): ?>
+		<?php if (isset($footer_scripts) && $footer_scripts): ?>
+		
 			<?php foreach($footer_scripts as $script): ?>
 				<script src="<?= $script; ?>"></script>
 			<?php endforeach ?>

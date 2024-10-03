@@ -19,7 +19,7 @@
 */
 require_once('../config/settings.php');
 
-$get_input = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING); // Sanitize $_GET global
+$get_input = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS); // Sanitize $_GET global
 
 if (isset($get_input['error'])) {
     UdoitUtils::instance()->exitWithPageError('Authentication problem: Access Denied.');

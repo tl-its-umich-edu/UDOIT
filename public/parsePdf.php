@@ -27,7 +27,7 @@ UdoitUtils::$canvas_base_url = $_SESSION['base_url'];
 $_SESSION['pdf_generated'] = false;
 global $logger;
 
-$title = filter_input(INPUT_POST, 'context_title', FILTER_SANITIZE_STRING);
+$title = filter_input(INPUT_POST, 'context_title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $result_html = filter_input(INPUT_POST, 'result_html', FILTER_UNSAFE_RAW);
 
 // Write the pdf

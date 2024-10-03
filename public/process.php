@@ -35,7 +35,7 @@ if (empty($user_id) || empty($base_url)) {
     exit('{"error": "Your session timed out, please refresh the page and try again."}');
 }
 
-$main_action = filter_input(INPUT_POST, 'main_action', FILTER_SANITIZE_STRING);
+$main_action = filter_input(INPUT_POST, 'main_action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 switch ($main_action) {
     case 'udoit':
         if (ENV_PROD !== $UDOIT_ENV) {
@@ -46,8 +46,8 @@ switch ($main_action) {
         global $logger;
 
         $content   = filter_input(INPUT_POST, 'content', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
-        $report_type = filter_input(INPUT_POST, 'report_type', FILTER_SANITIZE_STRING);
-        $title     = filter_input(INPUT_POST, 'context_title', FILTER_SANITIZE_STRING);
+        $report_type = filter_input(INPUT_POST, 'report_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $title     = filter_input(INPUT_POST, 'context_title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $course_id = filter_input(INPUT_POST, 'course_id', FILTER_SANITIZE_NUMBER_INT);
         $job_group = uniqid('job_', true); // uniqid for this group of jobs
         $user_id = $_SESSION['launch_params']['custom_canvas_user_id'];
@@ -116,13 +116,13 @@ switch ($main_action) {
     case 'ufixit':
         $data = [
             'base_uri'     => $base_url,
-            'content_id'   => filter_input(INPUT_POST, 'contentid', FILTER_SANITIZE_STRING),
-            'content_type' => filter_input(INPUT_POST, 'contenttype', FILTER_SANITIZE_STRING),
+            'content_id'   => filter_input(INPUT_POST, 'contentid', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'content_type' => filter_input(INPUT_POST, 'contenttype', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
             'error_html'   => filter_input(INPUT_POST, 'errorhtml'),
-            'error_type'   => filter_input(INPUT_POST, 'errortype', FILTER_SANITIZE_STRING),
-            'bold'         => (filter_input(INPUT_POST, 'add-bold', FILTER_SANITIZE_STRING) == 'bold'),
-            'italic'       => (filter_input(INPUT_POST, 'add-italic', FILTER_SANITIZE_STRING) == 'italic'),
-            'remove_color' => (filter_input(INPUT_POST, 'remove-color', FILTER_SANITIZE_STRING) == 'true'),
+            'error_type'   => filter_input(INPUT_POST, 'errortype', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
+            'bold'         => (filter_input(INPUT_POST, 'add-bold', FILTER_SANITIZE_FULL_SPECIAL_CHARS) == 'bold'),
+            'italic'       => (filter_input(INPUT_POST, 'add-italic', FILTER_SANITIZE_FULL_SPECIAL_CHARS) == 'italic'),
+            'remove_color' => (filter_input(INPUT_POST, 'remove-color', FILTER_SANITIZE_FULL_SPECIAL_CHARS) == 'true'),
             'course_id'    => filter_input(INPUT_POST, 'course_id', FILTER_SANITIZE_NUMBER_INT),
             'api_key'      => UdoitUtils::instance()->getValidRefreshedApiKey($user_id),
         ];
@@ -144,17 +144,17 @@ switch ($main_action) {
             case 'aMustContainText':
             case 'aSuspiciousLinkText':
             case 'aLinkTextDoesNotBeginWithRedundantWord':
-                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_STRING);
+                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $corrected_error = $ufixit->fixLink($data['error_html'], $new_content);
                 break;
 
             case 'brokenLink':
-                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_STRING);
+                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $corrected_error = $ufixit->fixBrokenLink($data['error_html'], $new_content);
                 break;
 
             case 'cssTextHasContrast':
-                $new_content_array  = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY);
+                $new_content_array  = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
                 $corrected_error = $ufixit->fixCssColor($data['error_html'], $new_content_array, $data['bold'], $data['italic']);
                 break;
 
@@ -163,7 +163,7 @@ switch ($main_action) {
                 break;
 
             case 'headersHaveText':
-                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_STRING);
+                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $corrected_error = $ufixit->fixHeading($data['error_html'], $new_content);
                 break;
 
@@ -172,27 +172,27 @@ switch ($main_action) {
             case 'imgNonDecorativeHasAlt':
             case 'imgAltIsDifferent':
             case 'imgAltIsTooLong':
-                if (filter_input(INPUT_POST, 'makedeco', FILTER_SANITIZE_STRING) == 'on') {
+                if (filter_input(INPUT_POST, 'makedeco', FILTER_SANITIZE_FULL_SPECIAL_CHARS) == 'on') {
                     $corrected_error = $ufixit->fixAltText($data['error_html'], "", true);
                 } else {
-                    $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_STRING);
+                    $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                     $corrected_error = $ufixit->fixAltText($data['error_html'], $new_content, false);
                 }
                 break;
 
             case 'pNotUsedAsHeader':
-                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_STRING);
+                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $corrected_error = $ufixit->makeHeading($data['error_html'], $new_content);
                 break;
 
             case 'redirectedLink':
-                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_STRING);
+                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $corrected_error = $ufixit->fixRedirectedLink($data['error_html'], $new_content);
                 break;
 
             case 'tableDataShouldHaveTh':
                 // fixing table headers is a special case...
-                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_STRING);
+                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $corrected_error    = $ufixit->fixTableHeaders($data['error_html'], $new_content);
                 $data['error_html'] = $corrected_error['old'];
                 $corrected_error    = $corrected_error['fixed'];
@@ -200,7 +200,7 @@ switch ($main_action) {
                 break;
 
             case 'tableThShouldHaveScope':
-                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_STRING);
+                $new_content = filter_input(INPUT_POST, 'newcontent', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $corrected_error = $ufixit->fixTableThScopes($data['error_html'], $new_content);
                 break;
         }

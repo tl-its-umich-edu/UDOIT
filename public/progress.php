@@ -25,7 +25,7 @@ $user_id = $_SESSION['launch_params']['custom_canvas_user_id'];
 UdoitUtils::$canvas_base_url = $_SESSION['base_url'];
 session_write_close();
 
-$job_group = filter_input(INPUT_GET, 'job_group', FILTER_SANITIZE_STRING);
+$job_group = filter_input(INPUT_GET, 'job_group', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 // get the jobs
 $sth = UdoitDB::prepare("SELECT id, data, job_type, status, report_id FROM {$db_job_queue_table} WHERE job_group = :job_group AND user_id = :user_id");
