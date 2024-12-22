@@ -61,8 +61,8 @@ class UdoitJob
             $job_failed = true;
             global $logger;
             $logger->addError($e->getMessage());
-            $logger->addError(print_r($job, true));
             if ($job) {
+				$logger->addError(print_r($job, true));
                 self::updateJobStatus($job_record, 'error');
             }
         }
